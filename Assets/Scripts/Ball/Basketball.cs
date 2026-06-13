@@ -23,6 +23,11 @@ public class Basketball : MonoBehaviour
     [SerializeField] private Transform resetPoint;
     [SerializeField] private GameObject foulPopup;
 
+    [Header("Player")]
+    [SerializeField] private Transform player;
+    [SerializeField] private Rigidbody playerRb;
+    [SerializeField] private Transform playerResetPoint;
+
     private float timeWithoutDribble;
 
     public bool IsHeld { get; private set; }
@@ -46,12 +51,20 @@ public class Basketball : MonoBehaviour
     /* Updating the hold position of the ball, avoiding the ball to faze through the ground, handling dribbling timer */
     private void Update()
     {
+
+        // Reset Player Position and resets ball position if its lost or stuck or too far away
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetPlayerAndBallPosition();
+        }
+
         if (!IsHeld || holdPoint == null)
             return;
 
 
         if (HandleFoulTimer())
             return;
+
 
         currentInteractor = FindFirstObjectByType<BallInteractor>();
 
@@ -151,6 +164,24 @@ public class Basketball : MonoBehaviour
         transform.rotation = Quaternion.identity;
     }
 
+    /* Resets the ball position and States And the Player's Position*/ 
+    public void ResetPlayerAndBallPosition()
+    {
+        ResetBall(resetPoint.position);
+
+        if (player != null)
+        {
+            player.position = playerResetPoint.position;
+            player.rotation = playerResetPoint.rotation;
+        }
+
+        if (playerRb != null)
+        {
+            playerRb.linearVelocity = Vector3.zero;
+            playerRb.angularVelocity = Vector3.zero;
+        }
+    }
+
     /* Handles the Foul Timer and triggers the Foul logic*/
     private bool HandleFoulTimer()
     {
@@ -212,4 +243,6 @@ public class Basketball : MonoBehaviour
         if (foulPopup != null)
             foulPopup.SetActive(false);
     }
+
+
 }
