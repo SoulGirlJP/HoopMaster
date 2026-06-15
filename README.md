@@ -6,7 +6,7 @@ This project is a simple, single net, Basketball game containing many neat featu
 
 
 
-\### First-person movement
+### First-person movement
 
 * Mouse look
 * Sprinting with acceleration
@@ -16,7 +16,7 @@ This project is a simple, single net, Basketball game containing many neat featu
 
 
 
-\### Basketball Mechanics
+### Basketball Mechanics
 
 * Ball pickup system
 * Hold point system
@@ -31,7 +31,7 @@ This project is a simple, single net, Basketball game containing many neat featu
 
 
 
-\### Gameplay Systems
+### Gameplay Systems
 
 * Score detection through the hoop
 * Scoreboard displayed in the environment
@@ -42,7 +42,7 @@ This project is a simple, single net, Basketball game containing many neat featu
 
 
 
-\### The Game Feel
+### The Game Feel
 
 * Progressive movement acceleration
 * Dynamic camera FOV scaling
@@ -52,7 +52,7 @@ This project is a simple, single net, Basketball game containing many neat featu
 
 
 
-\## Controls
+## Controls
 
 Move - WASD
 
