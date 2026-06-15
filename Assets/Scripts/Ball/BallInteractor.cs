@@ -10,12 +10,15 @@ public class BallInteractor : MonoBehaviour
     [SerializeField] private float interactDistance = 3f;
 
     [Header("Throw")]
-    [SerializeField] private float minThrowForce = 0.1f;
-    [SerializeField] private float maxThrowForce = 0.5f;
-    [SerializeField] private float chargeSpeed = 0.1f;
+    [SerializeField] private float minThrowForce = 15.0f;
+    [SerializeField] private float maxThrowForce = 30.0f;
+    [SerializeField] private float timeToMaxCharge = 1.5f;
+
+
 
     private Basketball heldBall;
     private float currentThrowForce;
+    private float currentChargeTime;
 
     private void Start()
     {
@@ -24,12 +27,21 @@ public class BallInteractor : MonoBehaviour
 
     private void Update()
     {
+        /* Clears interaction state after a manual reset so releasing left click
+           does not throw a previously held ball */
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ClearHeldBall();
+            return;
+        }
+
+
         if (heldBall == null)
         {
             TryPickUpBall();
             return;
         }
-
+ 
         ChargeThrow();
         ReleaseThrow();
     }
@@ -63,14 +75,26 @@ public class BallInteractor : MonoBehaviour
     /* Charging the ball to throw adding charge speed and having a minimum and maximum force for throwning the ball*/
     private void ChargeThrow()
     {
+        // Resetting the throw force if dribbling
+        if (Input.GetMouseButton(1))
+        {
+            currentThrowForce = minThrowForce;
+            currentChargeTime = 0f;
+            return;
+        }
+
         if (!Input.GetMouseButton(0))
             return;
 
-        currentThrowForce += chargeSpeed * Time.deltaTime;
-        currentThrowForce = Mathf.Clamp(
-            currentThrowForce,
+        currentChargeTime += Time.deltaTime;
+        currentChargeTime = Mathf.Clamp(currentChargeTime, 0f, timeToMaxCharge);
+
+        float chargePercent = currentChargeTime / timeToMaxCharge;
+
+        currentThrowForce = Mathf.Lerp(
             minThrowForce,
-            maxThrowForce
+            maxThrowForce,
+            chargePercent
         );
     }
 
@@ -87,6 +111,7 @@ public class BallInteractor : MonoBehaviour
 
         heldBall = null;
         currentThrowForce = minThrowForce;
+        currentChargeTime = 0f;
     }
 
 

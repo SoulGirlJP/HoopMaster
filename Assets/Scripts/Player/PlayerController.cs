@@ -9,14 +9,14 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float baseSpeed = 5f;
-    [SerializeField] private float maxSpeed = 18f;
+    [SerializeField] private float maxSpeed = 25f;
     [SerializeField] private float acceleration = 5f;
     [SerializeField] private float deceleration = 12f;
     [SerializeField] private float mouseSensitivity = 2f;
 
     [Header("Jump")]
     [SerializeField] private float baseJumpForce = 6f;
-    [SerializeField] private float maxJumpForce = 12f;
+    [SerializeField] private float maxJumpForce = 40f;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.25f;
     [SerializeField] private LayerMask groundLayer;
@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float baseFOV = 75f;
     [SerializeField] private float maxFOV = 100f;
     [SerializeField] private float fovSmoothSpeed = 8f;
+
+    // Add Dunk Mechanic?
 
     private bool isGrounded;
     private float currentSpeed;
@@ -91,7 +93,7 @@ public class PlayerController : MonoBehaviour
         );
     }
 
-
+    /* Updates the current speed every frame ensuring smooth movement*/
     private void UpdateSpeed()
     {
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
@@ -141,6 +143,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    /* Function used for adding speed boost (ex. Grabbing a coin boost) */
     public void AddSpeedBoost(float amount)
     {
         currentSpeed = Mathf.Clamp(currentSpeed + amount, baseSpeed, maxSpeed);

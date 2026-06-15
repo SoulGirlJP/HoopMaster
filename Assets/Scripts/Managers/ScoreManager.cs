@@ -26,18 +26,22 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreboard();
     }
 
+    // Adds points to the scoreboard
     public void AddPoints(int points)
     {
         Score += points;
         UpdateScoreboard();
     }
 
+    // Resets the scoreboard points
     public void ResetScore()
     {
         Score = 0;
         UpdateScoreboard();
     }
 
+
+    // Updates the current scoreboard text
     private void UpdateScoreboard()
     {
         if (scoreText != null)

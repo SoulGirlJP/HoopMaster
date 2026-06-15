@@ -28,6 +28,8 @@ public class Basketball : MonoBehaviour
     [SerializeField] private Rigidbody playerRb;
     [SerializeField] private Transform playerResetPoint;
 
+    [SerializeField] private BallInteractor ballInteractor;
+
     private float timeWithoutDribble;
 
     public bool IsHeld { get; private set; }
@@ -76,6 +78,7 @@ public class Basketball : MonoBehaviour
             timeWithoutDribble = 0f;
         }
         
+        // Dribbling the ball
         if (Input.GetMouseButton(1))
         {
             float bounce = Mathf.PingPong(Time.time * dribbleSpeed, 1f);
@@ -85,6 +88,7 @@ public class Basketball : MonoBehaviour
             targetPosition = holdPoint.position + Vector3.down * (bounce * dribbleHeight);
         }
 
+        // Makes sure the ball doesn't faze through the ground
         if (Physics.Raycast(
             targetPosition + Vector3.up,
             Vector3.down,
@@ -167,16 +171,14 @@ public class Basketball : MonoBehaviour
     /* Resets the ball position and States And the Player's Position*/ 
     public void ResetPlayerAndBallPosition()
     {
+        // Makes sure that you can't throw ball without being in your hands after reset
+
         ResetBall(resetPoint.position);
 
-        if (player != null)
+        if (player != null && playerRb != null && playerResetPoint != null)
         {
             player.position = playerResetPoint.position;
             player.rotation = playerResetPoint.rotation;
-        }
-
-        if (playerRb != null)
-        {
             playerRb.linearVelocity = Vector3.zero;
             playerRb.angularVelocity = Vector3.zero;
         }
