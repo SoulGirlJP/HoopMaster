@@ -1,4 +1,4 @@
-\# HoopMaster - Simple Basketball Gameplay
+\# HoopMaster - Simple Basketball Gameplay - Made in Unity
 
 This project is a simple, single net, Basketball game containing many neat features.
 
